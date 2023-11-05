@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<style>
+	/* CSS styles */
+	* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#imageUpload {
+    display: block;
+}
+
+#uploadedImage {
+    max-width: 100%;
+    height: auto;
+}
+input {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 20px;
+    margin: 0 auto;
+}
+#myDiv {
+    margin: 20px auto;
+    width: 10cm;
+    height: 10cm;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 2cm;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+img{
+    width: 100%;
+}
+button{
+    background-color: blue;
+    border: none;
+    padding: 15px;
+}
+</style>
+</head>
+<body>
+    <h1>Upload and Display Image</h1>
+    <!-- File input for image selection -->
+    <input type="file" id="imageUpload" accept="image/*">
+    <!-- Container div for displaying the image -->
+    <div id="myDiv">
+        <img src="frame.png" alt="">
+    </div>
+    <!-- Button to capture and download the image -->
+    <button id="convertButton">Download</button>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+	<script>
+	
+     // JavaScript code
+	const imageUpload = document.getElementById("imageUpload");
+	const myDiv = document.getElementById("myDiv");
+	const convertButton = document.getElementById("convertButton");
+
+	// Handle image selection
+	imageUpload.addEventListener("change", function () {
+	    const file = this.files[0];
+	    if (file) {
+	        const reader = new FileReader();
+
+	        reader.onload = function (e) {
+	            // Set the selected image as the background image of myDiv
+	            myDiv.style.backgroundImage = `url(${e.target.result})`;
+	        };
+
+	        reader.readAsDataURL(file);
+	    } else {
+	        // Clear the background image if no file is selected
+	        myDiv.style.backgroundImage = "none";
+	    }
+	});
+
+	// Capture myDiv as an image and allow download
+	convertButton.addEventListener("click", function() {
+	    html2canvas(myDiv).then(function(canvas) {
+	        const imgData = canvas.toDataURL("image/png");
+	        const a = document.createElement("a");
+	        a.href = imgData;
+	        a.download = "div_image.png";
+	        a.click();
+	    });
+	});
+    
+
+	</script>
+</body>
+</html>
